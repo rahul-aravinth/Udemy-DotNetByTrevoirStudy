@@ -3,6 +3,7 @@ using ListingDemo.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ListingDemo.API.Migrations
 {
     [DbContext(typeof(ListingDBContext))]
-    partial class ListingDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220726183836_SeededCountriesAndHotels")]
+    partial class SeededCountriesAndHotels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
