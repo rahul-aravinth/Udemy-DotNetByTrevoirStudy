@@ -1,4 +1,7 @@
+using ListingDemo.API.Configuration;
+using ListingDemo.API.Contracts;
 using ListingDemo.API.Data;
+using ListingDemo.API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -24,6 +27,11 @@ builder.Services.AddCors(services =>
 
 // ctx - context here refers 'builder', lc - logger configuration
 builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
+
+builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 
 var app = builder.Build();
 
