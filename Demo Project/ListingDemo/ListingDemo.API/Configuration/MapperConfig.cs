@@ -9,11 +9,16 @@ namespace ListingDemo.API.Configuration
     {
         public MapperConfig()
         {
-            CreateMap<Country, CreateCountryDTO>().ReverseMap();
-            CreateMap<Country, GetCountryDTO>().ReverseMap();
+            //Country
             CreateMap<Country, CountryDTO>().ReverseMap();
+            CreateMap<Country, GetCountryDTO>().ReverseMap();
+            CreateMap<Country, CreateCountryDTO>().ReverseMap();
             CreateMap<Country, UpdateCountryDTO>().ReverseMap();
+            //Hotel
             CreateMap<Hotel, HotelDTO>().ReverseMap();
+            CreateMap<Hotel, GetHotelDTO>().ReverseMap();
+            CreateMap<Hotel, CreateHotelDTO>().ReverseMap();
+            CreateMap<Hotel, UpdateHotelDTO>().ReverseMap();
         }
     }
 }
