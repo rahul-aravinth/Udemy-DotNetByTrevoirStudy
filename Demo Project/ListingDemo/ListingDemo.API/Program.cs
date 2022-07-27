@@ -2,6 +2,7 @@ using ListingDemo.API.Configuration;
 using ListingDemo.API.Contracts;
 using ListingDemo.API.Data;
 using ListingDemo.API.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<ListingDBContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+
+builder.Services.AddIdentityCore<CustomAPIIdentiyUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ListingDBContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
