@@ -6,5 +6,6 @@ namespace ListingDemo.API.Contracts
     public interface IAuthManager
     {
         Task<IEnumerable<IdentityError>> Register(APIUserDTO userDTO);
+        Task<AuthResponseDTO> Login(LoginDTO loginDTO);
     }
 }
