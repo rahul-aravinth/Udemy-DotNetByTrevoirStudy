@@ -7,5 +7,7 @@ namespace ListingDemo.API.Contracts
     {
         Task<IEnumerable<IdentityError>> Register(APIUserDTO userDTO);
         Task<AuthResponseDTO> Login(LoginDTO loginDTO);
+        Task<string> CreateRefreshToken();
+        Task<AuthResponseDTO> VerifyRefershToken(AuthResponseDTO authResponse);
     }
 }

@@ -55,5 +55,23 @@ namespace ListingDemo.API.Controllers
 
             return Ok(authResponse);
         }
+
+        // POST : api/Account/RefreshToken
+        [HttpPost]
+        [Route("RefreshToken")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> RefreshToken([FromBody] AuthResponseDTO authResponseDTO)
+        {
+            var authResponse = await _authManager.VerifyRefershToken(authResponseDTO);
+
+            if (authResponse == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(authResponse);
+        }
     }
 }

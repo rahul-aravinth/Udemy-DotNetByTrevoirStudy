@@ -19,7 +19,11 @@ builder.Services.AddDbContext<ListingDBContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
-builder.Services.AddIdentityCore<CustomAPIIdentiyUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ListingDBContext>();
+builder.Services.AddIdentityCore<CustomAPIIdentiyUser>()
+    .AddRoles<IdentityRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<CustomAPIIdentiyUser>>("ListingDemoAPI")
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ListingDBContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,7 +32,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(services =>
 {
-    services.AddPolicy("AllowAll", x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyOrigin());
+    services.AddPolicy("AllowAll", x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 });
 
 // ctx - context here refers 'builder', lc - logger configuration
@@ -72,6 +76,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
