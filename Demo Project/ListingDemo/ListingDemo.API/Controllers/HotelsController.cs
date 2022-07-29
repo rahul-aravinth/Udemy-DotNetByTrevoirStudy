@@ -10,6 +10,7 @@ using AutoMapper;
 using ListingDemo.API.Contracts;
 using ListingDemo.API.Models.Hotel;
 using Microsoft.AspNetCore.Authorization;
+using ListingDemo.API.Exceptions;
 
 namespace ListingDemo.API.Controllers
 {
@@ -55,7 +56,7 @@ namespace ListingDemo.API.Controllers
         {
             if (id != updateHotelDTO.Id)
             {
-                return BadRequest();
+                throw new BadRequestException(nameof(PutHotel), id);
             }
 
             var hotel = await _hotelsRepository.GetAsync(id);

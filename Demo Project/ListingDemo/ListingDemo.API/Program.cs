@@ -1,6 +1,7 @@
 using ListingDemo.API.Configuration;
 using ListingDemo.API.Contracts;
 using ListingDemo.API.Data;
+using ListingDemo.API.Middleware;
 using ListingDemo.API.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -72,6 +73,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

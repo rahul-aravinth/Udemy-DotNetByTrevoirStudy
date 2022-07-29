@@ -10,6 +10,7 @@ using ListingDemo.API.Models.Country;
 using AutoMapper;
 using ListingDemo.API.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using ListingDemo.API.Exceptions;
 
 namespace ListingDemo.API.Controllers
 {
@@ -41,7 +42,7 @@ namespace ListingDemo.API.Controllers
 
             if (country == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(GetCountry), id);
             }
 
             return country;
@@ -55,7 +56,7 @@ namespace ListingDemo.API.Controllers
         {
             if (id != updateCountryDTO.Id)
             {
-                return BadRequest();
+                throw new BadRequestException(nameof(PutCountry), id);
             }
 
             //Get the country detail
@@ -63,7 +64,7 @@ namespace ListingDemo.API.Controllers
 
             if (country == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(GetCountry), id);
             }
 
             //Map the new data to the fetched data and change it's state to modified
@@ -78,7 +79,7 @@ namespace ListingDemo.API.Controllers
             {
                 if (!await CountryExists(id))
                 {
-                    return NotFound();
+                    throw new NotFoundException(nameof(GetCountry), id);
                 }
                 else
                 {
@@ -111,7 +112,7 @@ namespace ListingDemo.API.Controllers
 
             if (country == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(GetCountry), id);
             }
 
             await _countriesRepository.DeleteAsync(id);
