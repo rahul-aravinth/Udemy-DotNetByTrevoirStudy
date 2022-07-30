@@ -1,5 +1,8 @@
-﻿using ListingDemo.API.Contracts;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using ListingDemo.API.Contracts;
 using ListingDemo.API.Data;
+using ListingDemo.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ListingDemo.API.Repository
@@ -7,10 +10,13 @@ namespace ListingDemo.API.Repository
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly ListingDBContext _context;
+        private readonly IMapper _mapper;
+
         //Injecting context or DB per say
-        public GenericRepository(ListingDBContext context)
+        public GenericRepository(ListingDBContext context, IMapper mapper)
         {
             this._context = context;
+            this._mapper = mapper;
         }
         //Equivalent to GET with id
         public async Task<T> GetAsync(int? id)
@@ -55,5 +61,22 @@ namespace ListingDemo.API.Repository
             return entity != null;
         }
 
+        public async Task<PagedResult<TResult>> GetAllAsync<TResult>(QueryParameters queryParameters)
+        {
+            var totalSize = await _context.Set<T>().CountAsync();
+            var items = await _context.Set<T>()
+                .Skip(queryParameters.StartIndex)
+                .Take(queryParameters.PageSize)
+                .ProjectTo<TResult>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return new PagedResult<TResult>
+            {
+                Items = items,
+                PageNumber = queryParameters.StartIndex,
+                RecordNumber = queryParameters.PageSize,
+                TotalCount = totalSize
+            };
+        }
     }
 }

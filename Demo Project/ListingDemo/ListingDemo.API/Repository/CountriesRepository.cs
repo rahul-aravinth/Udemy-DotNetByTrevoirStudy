@@ -1,4 +1,5 @@
-﻿using ListingDemo.API.Contracts;
+﻿using AutoMapper;
+using ListingDemo.API.Contracts;
 using ListingDemo.API.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace ListingDemo.API.Repository
     {
         private readonly ListingDBContext _context;
 
-        public CountriesRepository(ListingDBContext context) : base(context)
+        public CountriesRepository(ListingDBContext context, IMapper mapper) : base(context, mapper)
         {
             this._context = context;
         }

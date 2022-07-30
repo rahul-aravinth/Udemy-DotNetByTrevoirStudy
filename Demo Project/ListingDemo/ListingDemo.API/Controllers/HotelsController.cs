@@ -11,6 +11,7 @@ using ListingDemo.API.Contracts;
 using ListingDemo.API.Models.Hotel;
 using Microsoft.AspNetCore.Authorization;
 using ListingDemo.API.Exceptions;
+using ListingDemo.API.Models;
 
 namespace ListingDemo.API.Controllers
 {
@@ -28,11 +29,18 @@ namespace ListingDemo.API.Controllers
             this._hotelsRepository = hotelsRepository;
         }
 
-        // GET: api/Hotels
-        [HttpGet]
+        // GET: api/Hotels/GetAll
+        [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<GetHotelDTO>>> GetHotels()
         {
             return _mapper.Map<List<GetHotelDTO>>(await _hotelsRepository.GetAllAsync());
+        }
+
+        // GET: api/Hotels?StartIndex=0&PageSize=5&PageNumber=1
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<GetHotelDTO>>> GetPagedHotels([FromQuery] QueryParameters queryParameters)
+        {
+            return await _hotelsRepository.GetAllAsync<GetHotelDTO>(queryParameters);
         }
 
         // GET: api/Hotels/5

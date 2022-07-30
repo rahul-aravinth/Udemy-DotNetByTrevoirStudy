@@ -11,6 +11,8 @@ using AutoMapper;
 using ListingDemo.API.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using ListingDemo.API.Exceptions;
+using ListingDemo.API.Models;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace ListingDemo.API.Controllers
 {
@@ -27,11 +29,19 @@ namespace ListingDemo.API.Controllers
             this._countriesRepository = countriesRepository;
         }
 
-        // GET: api/Countries
-        [HttpGet]
+        // GET: api/Countries/GetAll
+        [HttpGet("GetAll")]
+        [EnableQuery]
         public async Task<ActionResult<IEnumerable<GetCountryDTO>>> GetCountries()
         {
             return _mapper.Map<List<GetCountryDTO>>(await _countriesRepository.GetAllAsync());
+        }
+
+        // GET: api/Countries?StartIndex=0&PageSize=5&PageNumber=1
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<GetCountryDTO>>> GetPagedCountries([FromQuery]QueryParameters queryParameters)
+        {
+            return await _countriesRepository.GetAllAsync<GetCountryDTO>(queryParameters);
         }
 
         // GET: api/Countries/5
